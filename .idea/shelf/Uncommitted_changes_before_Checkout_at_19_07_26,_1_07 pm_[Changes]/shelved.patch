@@ -1,0 +1,16 @@
+Index: frontend/next-env.d.ts
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+>/// <reference types=\"next\" />\n/// <reference types=\"next/image-types/global\" />\nimport \"./.next/types/routes.d.ts\";\n\n// NOTE: This file should not be edited\n// see https://nextjs.org/docs/app/api-reference/config/typescript for more information.\n
+===================================================================
+diff --git a/frontend/next-env.d.ts b/frontend/next-env.d.ts
+--- a/frontend/next-env.d.ts	(revision bb96e98af835f9930e460fe09f382ccb35d319e7)
++++ b/frontend/next-env.d.ts	(date 1784446608334)
+@@ -1,6 +1,6 @@
+ /// <reference types="next" />
+ /// <reference types="next/image-types/global" />
+-import "./.next/types/routes.d.ts";
++import "./.next/dev/types/routes.d.ts";
+ 
+ // NOTE: This file should not be edited
+ // see https://nextjs.org/docs/app/api-reference/config/typescript for more information.
