@@ -230,6 +230,21 @@ export function CommandCenter() {
       heading: 135,
       speed: '15 kn',
       riskScore: sr.blocked ? 'BLOCKED' : riskStr,
+      // ── Rich tooltip data ──────────────────────────────────
+      supplier:        opt?.option.supplier ?? sr.supplierId,
+      crudeGrade:      opt?.option.crudeGrade,
+      contractType:    opt?.option.contractType,
+      refinery:        opt?.option.refinery,
+      landedCostInr:   opt?.features.landedCostInr,
+      crudePriceUsd:   opt?.option.crudePriceUsd,
+      freightUsd:      opt?.option.freightUsd,
+      topsisScore:     opt?.topsisScore,
+      rank:            opt?.rank,
+      etaDays:         opt?.features.etaDays,
+      gulfRisk:        sr.blocked ? 'BLOCKED' : riskStr,
+      gulfEvents:      signals?.gulfNegativeEvents7d,
+      portCongestion:  signals?.portCongestion,
+      weatherSeverity: signals?.weatherSeverity,
     };
   });
 
