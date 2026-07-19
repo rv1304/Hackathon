@@ -38,44 +38,171 @@ interface ShippingMapProps {
   onRouteSelect?: (routeId: string) => void;
 }
 
-// ─── Sea-route waypoints ──────────────────────────────────────────────────────
+// ─── Sea-route waypoints (strictly ocean-only, no land crossings) ─────────────
+//
+//  Key choke points used:
+//   Strait of Hormuz      : [56.5, 24.0] exit
+//   Bab-el-Mandeb (strait): [43.4, 11.6]
+//   Suez Canal north      : [32.3, 31.2]  (Port Said)
+//   Suez Canal south      : [32.5, 30.0]  (Suez City)
+//   Bosphorus (Istanbul)  : [29.0, 41.1] → [28.9, 41.0] → [26.7, 40.1] (Dardanelles)
+//   Cape of Good Hope     : [18.5, -34.4]
+//
 const SEA_ROUTE_WAYPOINTS: Record<string, [number, number][]> = {
+
+  // ── Route 1: UAE (Ruwais) → Mundra ──────────────────────────────────────────
+  // Persian Gulf → Strait of Hormuz → Gulf of Oman → Arabian Sea → Gujarat
   'route-1': [
-    [52.73, 24.11], [55.00, 24.50], [57.50, 23.50],
-    [59.00, 22.50], [62.00, 21.00], [66.00, 21.00], [69.73, 22.84],
+    [52.73, 24.11],  // Ruwais (UAE)
+    [54.50, 24.30],  // Central Persian Gulf
+    [56.00, 24.40],  // East Gulf
+    [56.50, 24.00],  // Strait of Hormuz (west)
+    [57.80, 23.60],  // Strait of Hormuz (east) / Gulf of Oman entry
+    [59.50, 22.80],  // Gulf of Oman
+    [61.50, 21.50],  // Arabian Sea
+    [65.00, 21.50],  // Mid Arabian Sea
+    [67.50, 22.20],  // Approach Gujarat
+    [69.73, 22.84],  // Mundra (India)
   ],
+
+  // ── Route 2: Saudi (Yanbu) → Jamnagar ───────────────────────────────────────
+  // Red Sea south → Bab-el-Mandeb → Gulf of Aden → Arabian Sea
   'route-2': [
-    [38.06, 24.09], [37.80, 20.00], [43.30, 12.60],
-    [48.50, 11.50], [55.00, 13.00], [60.00, 16.00],
-    [64.00, 18.00], [67.00, 20.50], [69.10, 22.10],
+    [38.06, 24.09],  // Yanbu (Saudi Arabia)
+    [37.50, 21.00],  // Red Sea (mid)
+    [36.80, 17.00],  // Red Sea (south)
+    [36.00, 14.00],  // Red Sea (approaching strait)
+    [43.40, 11.60],  // Bab-el-Mandeb Strait
+    [46.00, 11.20],  // Gulf of Aden (west)
+    [50.00, 11.50],  // Gulf of Aden (east)
+    [55.00, 12.50],  // Arabian Sea (west)
+    [60.00, 16.00],  // Arabian Sea (mid)
+    [64.50, 19.00],  // NW Indian Ocean
+    [67.00, 20.80],  // Approach Gujarat coast
+    [69.10, 22.10],  // Jamnagar (India)
   ],
+
+  // ── Route 3: Iraq (Basrah) → Mumbai ─────────────────────────────────────────
+  // Shatt-al-Arab → Persian Gulf → Hormuz → Arabian Sea
   'route-3': [
-    [47.80, 30.50], [50.20, 27.00], [56.30, 24.50],
-    [57.80, 23.40], [60.00, 21.50], [64.00, 19.50],
-    [68.00, 19.00], [72.84, 19.08],
+    [47.80, 30.50],  // Basrah (Iraq)
+    [49.00, 28.50],  // North Persian Gulf
+    [51.00, 26.50],  // Mid Persian Gulf
+    [54.00, 25.00],  // South Persian Gulf
+    [56.50, 24.00],  // Strait of Hormuz
+    [58.00, 23.20],  // Gulf of Oman
+    [60.00, 22.00],  // Arabian Sea entry
+    [63.50, 19.50],  // Mid Arabian Sea
+    [67.00, 19.00],  // Approach Mumbai
+    [70.00, 18.80],  // Approaching coast
+    [72.85, 19.08],  // Mumbai (India)
   ],
+
+  // ── Route 4: Kuwait → Kochi ──────────────────────────────────────────────────
+  // Persian Gulf → Hormuz → Arabian Sea south → Laccadive Sea → Kochi
   'route-4': [
-    [48.08, 29.08], [50.50, 26.50], [56.50, 24.00],
-    [57.80, 23.00], [60.50, 21.00], [65.00, 16.00],
-    [70.00, 12.00], [73.00, 11.00], [76.27, 9.93],
+    [48.08, 29.08],  // Mina Al Ahmadi (Kuwait)
+    [49.50, 27.50],  // North Gulf
+    [52.00, 26.00],  // Mid Gulf
+    [55.00, 25.00],  // South Gulf
+    [56.50, 24.00],  // Strait of Hormuz
+    [58.50, 22.50],  // Gulf of Oman
+    [61.00, 20.00],  // Arabian Sea
+    [65.00, 15.00],  // Mid Arabian Sea
+    [68.00, 12.50],  // Approaching Laccadive Sea
+    [72.00, 10.80],  // Off Kerala coast
+    [74.50, 10.20],  // Near Kochi
+    [76.27,  9.93],  // Kochi (India)
   ],
+
+  // ── Route 5: Nigeria (Bonny) → Paradip ──────────────────────────────────────
+  // Gulf of Guinea → South Atlantic (stay west of Africa) → Cape of Good Hope
+  // → Southern Indian Ocean → Bay of Bengal
   'route-5': [
-    [7.15, 4.44], [5.00, 2.00], [0.00, -2.00],
-    [10.00, -10.00], [30.00, -15.00], [50.00, -10.00],
-    [65.00, 8.00], [72.00, 14.00], [78.00, 18.00], [86.68, 20.27],
+    [ 7.15,  4.44],  // Bonny Terminal (Nigeria)
+    [ 5.00,  1.50],  // Gulf of Guinea coast
+    [ 2.00, -2.00],  // Equatorial Atlantic
+    [-1.00, -8.00],  // South Atlantic (west of Gabon)
+    [-3.00,-18.00],  // South Atlantic
+    [-1.00,-28.00],  // South Atlantic
+    [ 8.00,-32.00],  // Approaching Cape route (staying in ocean)
+    [15.00,-34.00],  // South of Cape Town
+    [18.50,-34.40],  // Cape of Good Hope
+    [25.00,-37.00],  // Southern Ocean (east of Cape)
+    [35.00,-36.00],  // Southern Indian Ocean
+    [45.00,-32.00],  // Southern Indian Ocean
+    [55.00,-24.00],  // Indian Ocean
+    [63.00,-16.00],  // Indian Ocean
+    [68.00, -8.00],  // Indian Ocean (north-bound)
+    [72.00,  2.00],  // Equatorial Indian Ocean
+    [76.00, 10.00],  // Bay of Bengal approach
+    [80.00, 15.00],  // Bay of Bengal
+    [84.00, 18.00],  // Approaching Paradip
+    [86.68, 20.27],  // Paradip (India)
   ],
+
+  // ── Route 6: USA (Houston) → Visakhapatnam ──────────────────────────────────
+  // Gulf of Mexico → Florida Strait → Atlantic → Cape of Good Hope
+  // → Indian Ocean → Bay of Bengal
   'route-6': [
-    [-95.37, 29.75], [-85.00, 25.00], [-70.00, 20.00],
-    [-50.00, 10.00], [-20.00, 5.00], [10.00, -5.00],
-    [30.00, -15.00], [55.00, -10.00], [65.00, 8.00],
-    [72.00, 14.00], [80.00, 16.00], [83.22, 17.69],
+    [-95.37, 29.75],  // Houston (USA)
+    [-89.00, 25.00],  // Gulf of Mexico
+    [-82.00, 24.00],  // Florida Strait
+    [-79.00, 22.50],  // Caribbean Sea
+    [-75.00, 20.00],  // Caribbean
+    [-65.00, 13.00],  // Eastern Caribbean
+    [-52.00,  8.00],  // Atlantic (approaching equator)
+    [-38.00,  3.00],  // Mid-Atlantic
+    [-22.00, -5.00],  // South Atlantic
+    [-12.00,-15.00],  // South Atlantic
+    [ -5.00,-24.00],  // South Atlantic
+    [  5.00,-32.00],  // South Atlantic (approaching Cape)
+    [ 13.00,-34.50],  // South of Cape Town
+    [ 18.50,-34.40],  // Cape of Good Hope
+    [ 26.00,-38.00],  // Southern Ocean
+    [ 37.00,-36.00],  // Southern Indian Ocean
+    [ 48.00,-30.00],  // Southern Indian Ocean
+    [ 58.00,-20.00],  // Indian Ocean
+    [ 65.00,-10.00],  // Indian Ocean
+    [ 70.00,  0.00],  // Equatorial Indian Ocean
+    [ 75.00,  8.00],  // Bay of Bengal approach
+    [ 79.00, 13.00],  // Bay of Bengal
+    [ 83.22, 17.69],  // Visakhapatnam (India)
   ],
+
+  // ── Route 7: Russia (Novorossiysk) → Paradip ────────────────────────────────
+  // Black Sea → Bosphorus → Sea of Marmara → Dardanelles → Aegean
+  // → Mediterranean → Suez Canal → Red Sea → Bab-el-Mandeb → Indian Ocean
   'route-7': [
-    [37.78, 44.72], [31.00, 41.00], [28.97, 41.01],
-    [26.00, 40.00], [25.00, 37.50], [23.00, 34.50],
-    [32.60, 32.00], [32.60, 28.00], [37.00, 21.00],
-    [43.30, 12.60], [50.00, 11.50], [58.00, 11.00],
-    [65.00, 13.00], [72.00, 16.00], [80.00, 18.00], [86.68, 20.27],
+    [ 37.78, 44.72],  // Novorossiysk (Russia) - Black Sea
+    [ 33.00, 43.50],  // Black Sea (mid)
+    [ 29.00, 41.15],  // Bosphorus (Black Sea side)
+    [ 28.97, 41.01],  // Istanbul / Bosphorus
+    [ 28.00, 40.70],  // Sea of Marmara
+    [ 27.50, 40.40],  // Sea of Marmara (west)
+    [ 26.70, 40.10],  // Dardanelles
+    [ 25.80, 39.50],  // Aegean Sea
+    [ 24.50, 38.00],  // Aegean Sea
+    [ 23.00, 36.00],  // Southern Aegean
+    [ 25.00, 34.00],  // Eastern Mediterranean
+    [ 28.50, 33.00],  // Eastern Mediterranean
+    [ 32.30, 31.20],  // Port Said (Suez Canal north)
+    [ 32.50, 30.00],  // Suez Canal (mid)
+    [ 32.55, 29.97],  // Suez (Red Sea entry)
+    [ 33.50, 28.00],  // Red Sea (north)
+    [ 35.00, 25.00],  // Red Sea
+    [ 36.50, 21.00],  // Red Sea (mid)
+    [ 38.50, 17.00],  // Red Sea (south)
+    [ 40.50, 14.00],  // Red Sea (approaching strait)
+    [ 43.40, 11.60],  // Bab-el-Mandeb Strait
+    [ 47.00, 11.20],  // Gulf of Aden
+    [ 52.00, 11.50],  // Gulf of Aden (east)
+    [ 58.00, 11.00],  // Arabian Sea
+    [ 65.00, 10.50],  // Mid Indian Ocean
+    [ 72.00, 13.00],  // Approaching India
+    [ 78.00, 16.00],  // Bay of Bengal approach
+    [ 82.00, 18.00],  // Bay of Bengal
+    [ 86.68, 20.27],  // Paradip (India)
   ],
 };
 
