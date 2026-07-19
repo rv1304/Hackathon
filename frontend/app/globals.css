@@ -1,40 +1,41 @@
 @import "tailwindcss";
 
 :root {
-  --background: #f8fafc;
-  --foreground: #0f172a;
-  --primary: #0f766e;
-  --primary-light: #14b8a6;
-  --accent: #0ea5e9;
-  --success: #10b981;
-  --warning: #f59e0b;
-  --destructive: #ef4444;
-  --muted: #94a3b8;
-  --border: #e2e8f0;
+  /* Premium dark theme - Palantir/Bloomberg inspired */
+  --background: #05080F;
+  --surface: #0A0E1A;
+  --surface-light: #0F1419;
+  --foreground: #E8EAED;
+  
+  /* Accent colors - high contrast on dark */
+  --cyan: #00D9FF;
+  --cyan-dim: #0099BB;
+  --green: #00E676;
+  --green-dim: #00A854;
+  --orange: #FF9800;
+  --orange-dim: #E68900;
+  --red: #FF5252;
+  --red-dim: #CC0000;
+  --purple: #A855F7;
+  --purple-dim: #8B5CF6;
+  
+  /* Utility colors */
+  --border: #1A1F2E;
+  --border-light: #2A3142;
+  --muted: #64748B;
+  --success: #00E676;
+  --warning: #FF9800;
+  --destructive: #FF5252;
 }
 
 @theme inline {
   --color-background: var(--background);
+  --color-surface: var(--surface);
   --color-foreground: var(--foreground);
-  --color-primary: var(--primary);
-  --color-accent: var(--accent);
+  --color-cyan: var(--cyan);
+  --color-green: var(--green);
   --font-sans: var(--font-geist-sans);
   --font-mono: var(--font-geist-mono);
-}
-
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0f172a;
-    --foreground: #f1f5f9;
-    --primary: #14b8a6;
-    --primary-light: #2dd4bf;
-    --accent: #38bdf8;
-    --success: #6ee7b7;
-    --warning: #fbbf24;
-    --destructive: #f87171;
-    --muted: #64748b;
-    --border: #1e293b;
-  }
 }
 
 body {
@@ -42,7 +43,7 @@ body {
   color: var(--foreground);
 }
 
-/* Smooth animations */
+/* Premium animations */
 @keyframes fadeIn {
   from {
     opacity: 0;
@@ -63,10 +64,49 @@ body {
   }
 }
 
+@keyframes glow {
+  0%, 100% {
+    box-shadow: 0 0 5px rgba(0, 217, 255, 0.3);
+  }
+  50% {
+    box-shadow: 0 0 15px rgba(0, 217, 255, 0.6);
+  }
+}
+
+@keyframes pulse-glow {
+  0%, 100% {
+    opacity: 1;
+  }
+  50% {
+    opacity: 0.7;
+  }
+}
+
 .animate-fadeIn {
   animation: fadeIn 0.3s ease-in-out;
 }
 
 .animate-slideUp {
   animation: slideUp 0.4s ease-out;
+}
+
+.animate-glow {
+  animation: glow 2s ease-in-out infinite;
+}
+
+.animate-pulse-glow {
+  animation: pulse-glow 2s ease-in-out infinite;
+}
+
+/* Glassmorphism effect */
+.glass {
+  background: rgba(10, 14, 26, 0.8);
+  backdrop-filter: blur(10px);
+  border: 1px solid rgba(26, 31, 46, 0.5);
+}
+
+/* Cyan glow border */
+.border-glow-cyan {
+  border: 1px solid var(--cyan);
+  box-shadow: 0 0 10px rgba(0, 217, 255, 0.2);
 }

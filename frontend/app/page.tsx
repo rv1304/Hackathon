@@ -1,15 +1,11 @@
-import { Dashboard } from '@/components/dashboard';
-import { Header } from '@/components/header';
-import { Sidebar } from '@/components/sidebar';
+'use client';
+
+import { CommandCenter } from '@/components/command-center';
 
 export default function Home() {
   return (
-    <div className="flex h-screen bg-background">
-      <Sidebar />
-      <div className="flex-1 flex flex-col overflow-hidden">
-        <Header />
-        <Dashboard />
-      </div>
+    <div className="w-full h-screen bg-background overflow-hidden">
+      <CommandCenter />
     </div>
   );
 }
