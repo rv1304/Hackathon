@@ -7,7 +7,7 @@ interface Route {
   vessel: string;
   eta: string;
   distance: number;
-  status: 'transit' | 'loading' | 'idle';
+  status: 'in-route' | 'transit' | 'loading' | 'idle' | 'blocked';
   heading: number;
 }
 

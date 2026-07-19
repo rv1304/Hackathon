@@ -53,12 +53,20 @@ export function DecisionExplanation({
         <p className="text-sm text-foreground/80 leading-relaxed">{recommendation.reasoning}</p>
       </div>
 
-      {/* Savings highlight */}
-      <div className="p-3 bg-green/5 border border-green/30 rounded">
-        <p className="text-xs text-muted uppercase tracking-wide mb-1">Estimated Savings</p>
-        <p className="text-lg font-bold text-green">₹{(recommendation.savings / 100000).toFixed(1)} Cr</p>
-        <p className="text-xs text-muted mt-1">vs. market average</p>
-      </div>
+      {/* Savings/Block highlight */}
+      {recommendation.riskLevel.toLowerCase() === 'blocked' ? (
+        <div className="p-3 bg-red/10 border border-red/30 rounded">
+          <p className="text-xs text-red uppercase tracking-wide mb-1">Trade Status</p>
+          <p className="text-lg font-bold text-red">TRADE PROHIBITED</p>
+          <p className="text-xs text-muted mt-1">Country designated as Not Friendly</p>
+        </div>
+      ) : (
+        <div className="p-3 bg-green/5 border border-green/30 rounded">
+          <p className="text-xs text-muted uppercase tracking-wide mb-1">Estimated Savings</p>
+          <p className="text-lg font-bold text-green">₹{(recommendation.savings / 100000).toFixed(1)} Cr</p>
+          <p className="text-xs text-muted mt-1">vs. market average</p>
+        </div>
+      )}
 
       {/* Criteria breakdown */}
       <div>

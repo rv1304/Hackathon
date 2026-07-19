@@ -33,6 +33,8 @@ export function SupplierCards({
         return 'bg-orange/10 border-orange/50 text-orange';
       case 'high':
         return 'bg-red/10 border-red/50 text-red';
+      case 'blocked':
+        return 'bg-red/20 border-red/50 text-red font-bold animate-pulse';
       default:
         return 'bg-cyan/10 border-cyan/50 text-cyan';
     }

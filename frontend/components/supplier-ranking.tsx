@@ -8,7 +8,7 @@ interface Supplier {
   weather: number;
   insurance: number;
   topsisScore: number;
-  savings: number;
+  savings: number | null;
   status: string;
 }
 

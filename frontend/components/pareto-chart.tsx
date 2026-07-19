@@ -46,7 +46,7 @@ export function ParetoChart() {
             }}
             labelStyle={{ color: 'var(--foreground)' }}
             cursor={{ fill: 'rgba(15, 118, 110, 0.1)' }}
-            formatter={(value) => value.toFixed(2)}
+            formatter={(value) => (typeof value === 'number' ? value.toFixed(2) : value)}
           />
           <Scatter
             name="Non-dominated"
