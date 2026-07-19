@@ -1,0 +1,39 @@
+server:
+  port: 8080
+
+spring:
+  application:
+    name: procure-intel
+  datasource:
+    url: jdbc:h2:mem:procureintel;DB_CLOSE_DELAY=-1
+    driver-class-name: org.h2.Driver
+    username: sa
+    password:
+  h2:
+    console:
+      enabled: true
+      path: /h2-console
+  jpa:
+    hibernate:
+      ddl-auto: create-drop
+    show-sql: false
+    properties:
+      hibernate:
+        format_sql: true
+
+procureintel:
+  fx-rate: 83.45
+  baseline-landed-cost-inr: 6850.0
+  inventory-buffer-days: 12
+  required-delivery-days: 14
+  criteria-weights:
+    price: 0.30
+    eta: 0.20
+    weather-risk: 0.15
+    geo-risk: 0.15
+    relationship: 0.10
+    refinery-yield: 0.10
+  notification-savings-threshold-inr: 500000
+
+cors:
+  allowed-origins: http://localhost:3000
